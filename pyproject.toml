@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "flask-realtime"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+uvicorn = "^0.13.4"
+starlette = "^0.14.2"
+wsproto = "^1.0.0"
+Jinja2 = "^2.11.3"
+aiofiles = "^0.6.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
