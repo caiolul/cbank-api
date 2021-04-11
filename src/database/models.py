@@ -4,7 +4,7 @@ from starlette.config import Config
 
 config = Config('.env')
 
-DATABASE_URL = 'sqlite:///test.sqlalchemy'
+DATABASE_URL = 'sqlite:///test.db'
 
 metadata = sqlalchemy.MetaData()
 
