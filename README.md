@@ -9,5 +9,5 @@ poetry shell
 
 poetry install
 
-uvicorn app:app --reload
+uvicorn src.app:app --reload
 ```

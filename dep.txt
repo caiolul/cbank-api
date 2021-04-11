@@ -1,0 +1,20 @@
+aiofiles @ file:///C:/Users/caio/AppData/Local/pypoetry/Cache/artifacts/05/80/ec/2da496ed25270de63fbb82ca8df61784a6685fc7620afa6f272fb29451/aiofiles-0.6.0-py3-none-any.whl
+aiosqlite @ file:///C:/Users/caio/AppData/Local/pypoetry/Cache/artifacts/d9/5d/45/2464961597f8a27f269b9ee87429ef04248d2d4de32f72328108ecd3bb/aiosqlite-0.16.0-py3-none-any.whl
+alembic @ file:///C:/Users/caio/AppData/Local/pypoetry/Cache/artifacts/d5/65/ce/73132219060dcd95be58f763318c8297d794e5aca9b7ef57e8cf588e45/alembic-1.5.8-py2.py3-none-any.whl
+autopep8==1.5.6
+click @ file:///C:/Users/caio/AppData/Local/pypoetry/Cache/artifacts/e2/79/34/a23e9d2f683ed66be11ec3bd760dec3a2fe228cfdedf2071bcf0531b06/click-7.1.2-py2.py3-none-any.whl
+databases @ file:///C:/Users/caio/AppData/Local/pypoetry/Cache/artifacts/15/5a/25/23e46c51b6b52910f21880b6540b3be9d6792249b43f2e4ba925ea2463/databases-0.4.3-py3-none-any.whl
+h11 @ file:///C:/Users/caio/AppData/Local/pypoetry/Cache/artifacts/bc/67/35/dab5a305c7a43c7a517d86674f35006dbb43c6746d19f419698f568164/h11-0.12.0-py3-none-any.whl
+Jinja2 @ file:///C:/Users/caio/AppData/Local/pypoetry/Cache/artifacts/c5/c3/19/5cf0bc7ff64d230dd7d23c044479d2b44dabe877ca4165c2d85cbe996d/Jinja2-2.11.3-py2.py3-none-any.whl
+Mako @ file:///C:/Users/caio/AppData/Local/pypoetry/Cache/artifacts/36/a0/32/d369940154b6574b58642bb8d75a2f2d2ad9a5f829c31e25e777978b50/Mako-1.1.4-py2.py3-none-any.whl
+MarkupSafe @ file:///C:/Users/caio/AppData/Local/pypoetry/Cache/artifacts/c2/5a/23/cb884221b19ded365c12c87d599f452879404b6aceb511eec4d5e9be77/MarkupSafe-1.1.1-cp39-cp39-win_amd64.whl
+pycodestyle==2.7.0
+python-dateutil @ file:///C:/Users/caio/AppData/Local/pypoetry/Cache/artifacts/93/67/cf/49f56d9e954addcfc50e5ffc9faee013c2eb00c6d77d56c6a22cb33b54/python_dateutil-2.8.1-py2.py3-none-any.whl
+python-editor @ file:///C:/Users/caio/AppData/Local/pypoetry/Cache/artifacts/43/75/a4/c8b6a02020de8bab9f4cb5f17ce34a4ef5e1c422e43f435471549db1ff/python_editor-1.0.4-py3-none-any.whl
+six @ file:///C:/Users/caio/AppData/Local/pypoetry/Cache/artifacts/dd/1c/65/ad0dea11136f5a869f072890a0eea955aa8fc35b90c85c55249fd3abfe/six-1.15.0-py2.py3-none-any.whl
+SQLAlchemy @ file:///C:/Users/caio/AppData/Local/pypoetry/Cache/artifacts/4a/0b/4b/a9fa79404dd3eb60e07dcdc2ff7e280535ad39d48ef012210e9a6362cd/SQLAlchemy-1.3.24-cp39-cp39-win_amd64.whl
+starlette @ file:///C:/Users/caio/AppData/Local/pypoetry/Cache/artifacts/9a/0a/76/64c9d5e1d11166beda856021a053f3bcb8b999fe702bd941ebd8f3ac53/starlette-0.14.2-py3-none-any.whl
+toml==0.10.2
+typing-extensions @ file:///C:/Users/caio/AppData/Local/pypoetry/Cache/artifacts/ab/c3/72/446cb2c521f10fc837619e8a7c68ed3c3bd74859bd625b7d74f38a159b/typing_extensions-3.7.4.3-py3-none-any.whl
+uvicorn @ file:///C:/Users/caio/AppData/Local/pypoetry/Cache/artifacts/ff/98/60/497b0419c728bec3cdbf21d3d2a119a9fe59fac4c04e1b28589c68adf0/uvicorn-0.13.4-py3-none-any.whl
+wsproto @ file:///C:/Users/caio/AppData/Local/pypoetry/Cache/artifacts/1d/a7/2d/130c91643f699e66be083d45b5bd85ecf1101cdfd5a1ac621097807818/wsproto-1.0.0-py3-none-any.whl

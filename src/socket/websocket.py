@@ -8,4 +8,5 @@ async def websocket_endpoint(websocket):
         mesg = await websocket.receive_text()
         print(mesg)
         await websocket.send_text(mesg.replace("Client", "Server"))
+    print('desconect or not reponse')
     await websocket.close()
