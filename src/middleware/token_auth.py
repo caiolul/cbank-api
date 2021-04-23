@@ -8,7 +8,7 @@ key = Config('.env')
 
 def middleware_token():
     back_token = JWTAuthenticationBackend(
-        secret_key=key('HASH_GEN'), prefix='JWT')
+        secret_key=key('HASH_GEN'), username_field='email')
 
     mid = [Middleware(AuthenticationMiddleware, backend=back_token)]
     return mid
