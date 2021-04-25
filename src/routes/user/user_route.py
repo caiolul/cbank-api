@@ -1,6 +1,9 @@
+import bcrypt
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 from src.database.models import User, Balance, database
+from starlette.authentication import requires
+from starlette_jwt import JWTUser
 
 
 async def add_user(request: Request) -> object:
@@ -10,10 +13,12 @@ async def add_user(request: Request) -> object:
     # Hash password
     hashed = bytes(data["password"], "utf-8")
 
-    # Query user
+    # Check  user
     raw = "SELECT * FROM USER WHERE CPF = :cpf AND EMAIL = :email"
-    value = {"cpf": data["cpf"], "email": data["email"]}
-    query = await database.fetch_one(query=raw, values={"cpf": data["cpf"], "email": data["email"]})
+    query = await database.fetch_one(
+        query=raw,
+        values={"cpf": data["cpf"], "email": data["email"]
+                })
 
     # Verify
     if query == None:
@@ -39,3 +44,16 @@ async def add_user(request: Request) -> object:
     return JSONResponse(
         "User already exist", status_code=400
     )
+
+
+@requires('authenticated')
+async def check_balance(request: Request) -> object:
+    data: JWTUser = request.user
+    # print(request.user.payload)
+    raw = "SELECT * FROM BALANCE WHERE USER_CPF = :cpf"
+    query = await database.fetch_one(
+        query=raw,
+        values={"cpf": data.payload["cpf"]})
+    # print(query)
+
+    return JSONResponse({"balance": query["value"]})
