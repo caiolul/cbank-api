@@ -44,16 +44,3 @@ async def add_user(request: Request) -> object:
     return JSONResponse(
         "User already exist", status_code=400
     )
-
-
-@requires('authenticated')
-async def check_balance(request: Request) -> object:
-    data: JWTUser = request.user
-    # print(request.user.payload)
-    raw = "SELECT * FROM BALANCE WHERE USER_CPF = :cpf"
-    query = await database.fetch_one(
-        query=raw,
-        values={"cpf": data.payload["cpf"]})
-    # print(query)
-
-    return JSONResponse({"balance": query["value"]})
