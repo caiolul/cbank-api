@@ -1,9 +1,9 @@
 import bcrypt
 from starlette.requests import Request
-from starlette.responses import JSONResponse, Response
-from src.database.models import User, Balance, database
+from starlette.responses import JSONResponse
 from starlette.authentication import requires
-from starlette_jwt import JWTUser
+from src.database.models import User, Balance, database
+from src.utils.database_func import query_user
 
 
 async def add_user(request: Request) -> object:
@@ -14,11 +14,7 @@ async def add_user(request: Request) -> object:
     hashed = bytes(data["password"], "utf-8")
 
     # Check  user
-    raw = "SELECT * FROM USER WHERE CPF = :cpf AND EMAIL = :email"
-    query = await database.fetch_one(
-        query=raw,
-        values={"cpf": data["cpf"], "email": data["email"]
-                })
+    query = await query_user(data["cpf"], data["email"])
 
     # Verify
     if query == None:

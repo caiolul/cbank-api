@@ -1,10 +1,10 @@
 import bcrypt
 from enum import Enum
+from starlette_jwt import JWTUser
 from starlette.requests import Request
+from starlette.authentication import requires
 from starlette.responses import JSONResponse
 from src.database.models import User, Balance, History, database
-from starlette.authentication import requires
-from starlette_jwt import JWTUser
 from src.utils.database_func import query_balance, update_balance
 
 
