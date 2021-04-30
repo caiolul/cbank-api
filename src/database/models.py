@@ -1,5 +1,6 @@
-from sqlalchemy import Table, Integer, MetaData, String, Column, ForeignKey, Float
 import databases
+from sqlalchemy.sql import func
+from sqlalchemy import Table, Integer, MetaData, String, Column, ForeignKey, Float, DateTime
 from starlette.config import Config
 
 # create config database
@@ -28,6 +29,18 @@ Balance = Table(
     Column("value", Float, nullable=False),
     Column("user_cpf", Integer, ForeignKey(
         'User.cpf'), nullable=False, unique=True),
+)
+History = Table(
+    'History',
+    metadata,
+    Column("id", Integer, primary_key=True),
+    Column("type", Integer, nullable=False),
+    Column("value", Float, nullable=False),
+    Column("cpf_recive", String),
+    Column("cpf_send", String),
+    Column("create_at", DateTime(timezone=True),
+           server_default=func.now()),
+    Column("update_at", DateTime),
 )
 
 database = databases.Database(DATABASE_URL)
