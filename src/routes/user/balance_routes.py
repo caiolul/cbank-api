@@ -5,7 +5,7 @@ from starlette.responses import JSONResponse
 from src.database.models import User, Balance, History, database
 from starlette.authentication import requires
 from starlette_jwt import JWTUser
-# from src.utils.database_func import update_data
+from src.utils.database_func import query_balance, update_balance
 
 
 class TypeTransaction(Enum):
@@ -17,13 +17,8 @@ class TypeTransaction(Enum):
 @requires('authenticated')
 async def check_balance(request: Request) -> object:
     data: JWTUser = request.user
-    # print(request.user.payload)
-    raw = "SELECT * FROM BALANCE WHERE USER_CPF = :cpf"
-    query = await database.fetch_one(
-        query=raw,
-        values={"cpf": data.payload["cpf"]})
-    # print(query)
-    # print(await update_data(data.payload["cpf"]))
+    # Query balance
+    query = await query_balance(data.payload['cpf'])
     return JSONResponse({"balance": query["value"]})
 
 
@@ -34,20 +29,15 @@ async def withdrawn(request: Request) -> object:
     data_json = await request.json()
 
     # Query balance
-    raw = "SELECT * FROM BALANCE WHERE USER_CPF = :cpf"
-    query = await database.fetch_one(
-        query=raw,
-        values={"cpf": data.payload["cpf"]})
+    query = await query_balance(data.payload["cpf"])
+
     # New balance
     result = query["value"] - data_json["value"]
 
     # Handling request
     if result >= 0.0:
         # Query to update balance
-        raw_updade = "UPDATE BALANCE SET VALUE = :value WHERE USER_CPF = :cpf"
-        resutl_query = await database.execute(
-            query=raw_updade,
-            values={"value": result, "cpf": data.payload["cpf"]})
+        resutl_query = await update_balance(result, data.payload["cpf"])
         # Create history
         history = History.insert().values(
             type=TypeTransaction.WITHDRAWN.value,
@@ -69,17 +59,14 @@ async def deposit(request: Request) -> object:
     data_json = await request.json()
 
     # Query balance
-    raw = "SELECT * FROM BALANCE WHERE user_cpf = :cpf"
-    query = await database.fetch_one(
-        query=raw,
-        values={"cpf": data.payload["cpf"]})
+    query = await query_balance(data.payload["cpf"])
+    # New balance
     result = query["value"] + data_json["value"]
-    if result >= 0.0:
+    # Handling request
+    if data_json["value"] >= 0.0:
         # Query to update balance
-        raw_updade = "UPDATE BALANCE SET value = :value WHERE USER_CPF = :cpf"
-        resutl_query = await database.execute(
-            query=raw_updade,
-            values={"value": result, "cpf": data.payload["cpf"]})
+        resutl_query = await update_balance(result, data.payload["cpf"])
+
         history = History.insert().values(
             type=TypeTransaction.DEPOSIT.value,
             value=data_json["value"],
@@ -99,27 +86,20 @@ async def transfer_to_cpf(request: Request) -> object:
     data_json = await request.json()
 
     # Query balance
-    raw = "SELECT * FROM BALANCE WHERE USER_CPF = :cpf"
-    query = await database.fetch_one(
-        query=raw,
-        values={"cpf": data.payload["cpf"]})
+    query = await query_balance(data.payload["cpf"])
     # New balance
     result = query["value"] - data_json["value"]
 
     # Query cpf to recive
-    raw = "SELECT * FROM BALANCE WHERE USER_CPF = :cpf"
-    query_cpf = await database.fetch_one(
-        query=raw,
-        values={"cpf": data_json["cpf"]})
+    query_cpf = await query_balance(data_json["cpf"])
+
     new_balance = query_cpf["value"] + data_json["value"]
 
     # Handling request
     if result >= 0.0 and query_cpf != None:
         # Query to update balance
-        raw_updade = "UPDATE BALANCE SET VALUE = :value WHERE USER_CPF = :cpf"
-        resutl_query = await database.execute(
-            query=raw_updade,
-            values={"value": new_balance, "cpf": data_json["cpf"]})
+
+        resutl_query = await update_balance(new_balance, data_json["cpf"])
         # Create history
         history = History.insert().values(
             type=TypeTransaction.TRANSFER.value,
