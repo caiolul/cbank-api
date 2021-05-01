@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://cdn.discordapp.com/attachments/340263600142942209/837865552247783454/Logo_with_name.png">
+  <img src="https://media.discordapp.net/attachments/340263600142942209/837872644187357264/Logo_with_name-removebg-preview.png">
 </p>
 <p align="center">
     Api developed with python using the starlette.io framework
