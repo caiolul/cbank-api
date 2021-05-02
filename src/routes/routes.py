@@ -1,5 +1,5 @@
 from starlette.routing import Route
-from src.routes.user.user_route import add_user
+from src.routes.user.user_route import add_user, alter_user
 from src.routes.user.balance_routes import check_balance, deposit, withdrawn, transfer_to_cpf
 from src.routes.session.session_route import login
 
@@ -7,6 +7,7 @@ from src.routes.session.session_route import login
 api_routes = [
     # User create routes
     Route("/user", endpoint=add_user, methods=["POST"]),
+    Route("/user", endpoint=alter_user, methods=["PUT"]),
     Route("/user/session", endpoint=login, methods=["POST"]),
     # Balance routes
     Route("/user/verify/balance", endpoint=check_balance, methods=["GET"]),

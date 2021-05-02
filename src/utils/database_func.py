@@ -8,6 +8,7 @@ class QueryTypes(Enum):
     SELECT_BALANCE = "SELECT * FROM BALANCE WHERE USER_CPF = :cpf"
     SELECT_USER = "SELECT * FROM USER WHERE CPF = :cpf AND EMAIL = :email"
     UPDATE_BALANCE = "UPDATE BALANCE SET VALUE = :value WHERE USER_CPF = :cpf"
+    UPDATE_USER = "UPDATE USER SET FNAME = :fname, LNAME = :lname WHERE CPF = :cpf"
     QUERY_LOGIN = "SELECT * FROM USER WHERE EMAIL == :email"
 
 
@@ -41,9 +42,20 @@ async def update_balance(value: str, data: str) -> RowProxy:
         query=QueryTypes.UPDATE_BALANCE.value,
         values={
             "value": value,
-            "cpf": value})
+            "cpf": data})
     return query
 
+# Update user
+
+
+async def update_user(fname: str, lname: str, cpf: str) -> RowProxy:
+    query = await database.execute(
+        query=QueryTypes.UPDATE_USER.value,
+        values={
+            "fname": fname,
+            "lname": lname,
+            "cpf": cpf})
+    return query
 # Query user to login
 
 
