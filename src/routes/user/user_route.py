@@ -3,7 +3,7 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse
 from starlette.authentication import requires
 from src.database.models import User, Balance, database
-from src.utils.database_func import query_user, update_user
+from src.utils.database_func import query_user, update_user, update_password
 
 
 async def add_user(request: Request) -> object:
@@ -41,7 +41,7 @@ async def add_user(request: Request) -> object:
         "User already exist", status_code=400
     )
 
-    # Alter user
+# Alter user
 
 
 @requires('authenticated')
@@ -52,12 +52,47 @@ async def alter_user(request: Request) -> object:
 
     # Query user
     query = await query_user(data.payload["cpf"], data.payload["email"])
-
+    # print(data)
     # Handling request
     if query:
         # Query to update user
-        resutl_query = await update_user(data_json["fname"], data_json["lname"], data.payload["cpf"])
-
-        return JSONResponse({"User update": data_json["fname"]})
+        try:
+            hasattr(data_json, 'email')
+            update_query = await update_user(
+                data_json["fname"],
+                data_json["lname"],
+                data_json["email"],
+                data.payload["cpf"])
+            return JSONResponse({"User update": data_json["fname"]}, status_code=201)
+        except:
+            resutl_query = await update_user(
+                data_json["fname"],
+                data_json["lname"],
+                data.payload["email"],
+                data.payload["cpf"])
+            return JSONResponse({"User update": data_json["fname"]}, status_code=201)
     # Return errors
-    return JSONResponse({"Error": "check data entry"})
+    return JSONResponse({"Error": "check data entry"}, status_code=400)
+
+# Update password
+
+
+async def alter_password(request: Request) -> object:
+   # Get data
+    data: JWTUser = request.user
+    data_json = await request.json()
+
+    # Query user
+    query = await query_user(data.payload["cpf"], data.payload["email"])
+    # print(data)
+    # Handling request
+    if query:
+        hashed = bytes(data_json["password"], "utf-8")
+        # Query to update user
+        encrypt = bcrypt.hashpw(hashed, bcrypt.gensalt())
+        resutl_query = await update_password(
+            encrypt,
+            data.payload["cpf"])
+        return JSONResponse({"User update password": "ok"}, status_code=201)
+    # Return errors
+    return JSONResponse({"Error": "check data entry"}, status_code=400)
