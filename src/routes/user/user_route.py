@@ -77,6 +77,7 @@ async def alter_user(request: Request) -> object:
 # Update password
 
 
+@requires('authenticated')
 async def alter_password(request: Request) -> object:
    # Get data
     data: JWTUser = request.user
