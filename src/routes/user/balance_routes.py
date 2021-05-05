@@ -9,7 +9,7 @@ from src.utils.database_func import query_balance, update_balance
 
 
 class TypeTransaction(Enum):
-    WITHDRAWN = 1
+    WITHDRAW = 1
     DEPOSIT = 2
     TRANSFER = 3
 
@@ -26,7 +26,7 @@ async def check_balance(request: Request) -> object:
 
 
 @requires('authenticated')
-async def withdrawn(request: Request) -> object:
+async def withdraw(request: Request) -> object:
     # Get data
     data: JWTUser = request.user
     data_json = await request.json()
@@ -43,7 +43,7 @@ async def withdrawn(request: Request) -> object:
         resutl_query = await update_balance(result, data.payload["cpf"])
         # Create history
         history = History.insert().values(
-            type=TypeTransaction.WITHDRAWN.value,
+            type=TypeTransaction.WITHDRAW.value,
             value=data_json["value"],
             cpf_recive=data.payload["cpf"],
         )
