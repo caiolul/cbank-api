@@ -1,11 +1,11 @@
-import bcrypt
 from enum import Enum
+from sqlalchemy.engine import result
 from starlette_jwt import JWTUser
 from starlette.requests import Request
 from starlette.authentication import requires
 from starlette.responses import JSONResponse
-from src.database.models import User, Balance, History, database
-from src.utils.database_func import query_balance, update_balance
+from src.database.models import History, database
+from src.utils.database_func import query_balance, update_balance, query_history, query_username
 
 
 class TypeTransaction(Enum):
@@ -13,8 +13,35 @@ class TypeTransaction(Enum):
     DEPOSIT = 2
     TRANSFER = 3
 
+# Query to history
+
 
 @requires('authenticated')
+async def check_history(request: Request) -> object:
+    data: JWTUser = request.user
+    # Query balance
+    query = await query_history(data.payload['cpf'])
+    if query:
+        content = [
+            {
+                "id": result["id"],
+                "type": result["type"],
+                "value": result["value"],
+                "cpf_send": result["cpf_send"],
+                "send_user": str(await query_username(result["cpf_send"])),
+                "time": str(result["create_at"]),
+            }
+            for result in query
+        ]
+
+        return JSONResponse(content=content)
+
+    return JSONResponse({"History not found": "check data entry"}, status_code=400)
+
+# Query to balance
+
+
+@ requires('authenticated')
 async def check_balance(request: Request) -> object:
     data: JWTUser = request.user
     # Query balance
@@ -25,7 +52,7 @@ async def check_balance(request: Request) -> object:
     return JSONResponse({"Balance not found": "check data entry"}, status_code=400)
 
 
-@requires('authenticated')
+@ requires('authenticated')
 async def withdraw(request: Request) -> object:
     # Get data
     data: JWTUser = request.user
@@ -55,7 +82,7 @@ async def withdraw(request: Request) -> object:
     return JSONResponse({"Error": "higher value than available"}, status_code=400)
 
 
-@requires('authenticated')
+@ requires('authenticated')
 async def deposit(request: Request) -> object:
     # Get data
     data: JWTUser = request.user
@@ -82,7 +109,7 @@ async def deposit(request: Request) -> object:
     return JSONResponse({"Error": "Value incorrect"}, status_code=400)
 
 
-@requires('authenticated')
+@ requires('authenticated')
 async def transfer_to_cpf(request: Request) -> object:
     # Get data
     data: JWTUser = request.user
