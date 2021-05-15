@@ -1,5 +1,6 @@
 import bcrypt
 from starlette.requests import Request
+from starlette_jwt import JWTUser
 from starlette.responses import JSONResponse
 from starlette.authentication import requires
 from src.database.models import User, Balance, database
@@ -18,7 +19,7 @@ async def add_user(request: Request) -> object:
 
     # Verify
     if query == None:
-        query_user = User.insert().values(
+        insert_user = User.insert().values(
             fname=data["fname"],
             lname=data["lname"],
             email=data["email"],
@@ -29,7 +30,7 @@ async def add_user(request: Request) -> object:
             value=0,
             user_cpf=data["cpf"]
         )
-        await database.execute(query_user)
+        await database.execute(insert_user)
         await database.execute(add_balance)
         return JSONResponse({
             "First name": data["fname"],

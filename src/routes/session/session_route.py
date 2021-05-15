@@ -3,7 +3,7 @@ import jwt
 import datetime
 from starlette.responses import JSONResponse
 from starlette.requests import Request
-from src.database.models import User, database, config
+from src.database.models import config
 from src.utils.database_func import login_user
 
 key = config('HASH_GEN')
