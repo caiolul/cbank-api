@@ -1,6 +1,6 @@
 import databases
 from sqlalchemy.sql import func
-from sqlalchemy import Table, Integer, MetaData, String, Column, ForeignKey, Float, DateTime
+from sqlalchemy import Table, Integer, MetaData, String, Column, ForeignKey, Float, DateTime, Binary
 from starlette.config import Config
 
 # create config database
@@ -20,14 +20,14 @@ User = Table(
     Column("fname", String, nullable=False),
     Column("lname", String, nullable=False),
     Column("cpf", String, unique=True, nullable=False),
-    Column("password", String, nullable=False),
+    Column("password", Binary, nullable=False),
 )
 Balance = Table(
     'Balance',
     metadata,
     Column("id", Integer, primary_key=True),
     Column("value", Float, nullable=False),
-    Column("user_cpf", Integer, ForeignKey(
+    Column("user_cpf", String, ForeignKey(
         'User.cpf'), nullable=False, unique=True),
 )
 History = Table(
