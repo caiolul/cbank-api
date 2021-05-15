@@ -3,15 +3,28 @@ from enum import Enum
 from sqlalchemy.engine.result import RowProxy
 from src.database.models import database
 
+# For postgres
+
 
 class QueryTypes(Enum):
-    SELECT_BALANCE = "SELECT * FROM BALANCE WHERE USER_CPF = :cpf"
-    SELECT_USER = "SELECT * FROM USER WHERE CPF = :cpf AND EMAIL = :email"
-    UPDATE_BALANCE = "UPDATE BALANCE SET VALUE = :value WHERE USER_CPF = :cpf"
-    UPDATE_USER = "UPDATE USER SET FNAME = :fname, LNAME = :lname, EMAIL = :email WHERE CPF = :cpf"
-    UPDATE_PASSWORD = "UPDATE USER SET PASSWORD = :password WHERE CPF = :cpf"
-    QUERY_LOGIN = "SELECT * FROM USER WHERE EMAIL == :email"
+    SELECT_BALANCE = """SELECT * FROM public."Balance" WHERE user_cpf = :cpf"""
+    SELECT_USER = """SELECT * FROM public."User" WHERE cpf = :cpf AND email = :email"""
+    SELECT_HISTORY = """SELECT * FROM public."History" WHERE cpf_recive = :cpf"""
+    RETURN_USERNAME = """SELECT * FROM public."User" WHERE cpf = :cpf"""
+    UPDATE_BALANCE = """UPDATE public."Balance" SET VALUE = :value WHERE user_cpf = :cpf"""
+    UPDATE_USER = """UPDATE public."User" SET fname = :fname, lname = :lname, email = :email WHERE cpf = :cpf"""
+    UPDATE_PASSWORD = """UPDATE public."User" SET password = :password WHERE cpf = :cpf"""
+    QUERY_LOGIN = """SELECT * FROM public."User" WHERE email = :email"""
 
+# Query username
+
+
+async def query_username(cpf: str) -> RowProxy:
+    query = await database.fetch_one(
+        query=QueryTypes.RETURN_USERNAME.value,
+        values={"cpf": cpf})
+
+    return query["fname"] + ' ' + query["lname"]
 
 # Query balance user
 
@@ -19,6 +32,14 @@ class QueryTypes(Enum):
 async def query_balance(cpf: str) -> RowProxy:
     query = await database.fetch_one(
         query=QueryTypes.SELECT_BALANCE.value,
+        values={"cpf": cpf})
+
+    return query
+
+
+async def query_history(cpf: str) -> RowProxy:
+    query = await database.fetch_all(
+        query=QueryTypes.SELECT_HISTORY.value,
         values={"cpf": cpf})
 
     return query
