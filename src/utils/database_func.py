@@ -23,8 +23,10 @@ async def query_username(cpf: str) -> RowProxy:
     query = await database.fetch_one(
         query=QueryTypes.RETURN_USERNAME.value,
         values={"cpf": cpf})
-
-    return query["fname"] + ' ' + query["lname"]
+    # Exist or not
+    if query:
+        return query["fname"] + ' ' + query["lname"]
+    return query
 
 # Query balance user
 
