@@ -46,7 +46,7 @@ async def add_user(request: Request) -> object:
 
         # thread to send mail
         _thread = threading.Thread(target=between_callback,
-                                   args=["caio.lucena@aluno.uepb.edu.br"])
+                                   args=[data["email"]])
         _thread.setDaemon(False)
     # starting the thread
         _thread.start()
