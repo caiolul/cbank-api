@@ -1,9 +1,8 @@
 from enum import Enum
-from sqlalchemy.engine import result
 from starlette_jwt import JWTUser
 from starlette.requests import Request
-from starlette.authentication import requires
 from starlette.responses import JSONResponse
+from starlette.authentication import requires
 from src.database.models import History, database
 from src.utils.database_func import query_balance, update_balance, query_history, query_username
 
@@ -21,6 +20,7 @@ async def check_history(request: Request) -> object:
     data: JWTUser = request.user
     # Query balance
     query = await query_history(data.payload['cpf'])
+
     if query:
         content = [
             {

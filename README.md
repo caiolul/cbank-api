@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://media.discordapp.net/attachments/340263600142942209/837872644187357264/Logo_with_name-removebg-preview.png">
+  <img src=".github/images/logo.png">
 </p>
 <p align="center">
     Api developed with python using the starlette.io framework
@@ -16,6 +16,13 @@
      <br />
      <br />
   <p>Create the .env file with your database and key configuration</p>
+  <code>database</code>
+  <br />
+  <code>email and password</code>
+  <br />
+  <code>hash key</code>
+    <br />
+    <br />
   <p>Upgrade database</p>
    <code>alembic upgrade head</code>
      <br />
@@ -24,12 +31,22 @@
    <code>uvicorn src.app:app --reload</code>
      <br />
      <br />
+
 </div>
 
 ## Routes in app
 
 - add user
+- update user
 - login
 - transfer
 - deposit
 - withdrawn
+
+## Feature
+
+- Sending emails when you sign up for the app
+
+<p align="center">
+  <img src=".github/images/email_example.jpeg" height=500>
+</p>
