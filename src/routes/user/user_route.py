@@ -1,10 +1,21 @@
 import bcrypt
+import asyncio
+import threading
 from starlette.requests import Request
 from starlette_jwt import JWTUser
 from starlette.responses import JSONResponse
 from starlette.authentication import requires
 from src.database.models import User, Balance, database
 from src.utils.database_func import query_user, update_user, update_password
+from src.utils.send_mail import mail_send
+
+
+def between_callback(args):
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+
+    loop.run_until_complete(mail_send(args))
+    loop.close()
 
 
 async def add_user(request: Request) -> object:
@@ -32,12 +43,22 @@ async def add_user(request: Request) -> object:
         )
         await database.execute(insert_user)
         await database.execute(add_balance)
+
+        # thread to send mail
+        _thread = threading.Thread(target=between_callback,
+                                   args=["caio.lucena@aluno.uepb.edu.br"])
+        _thread.setDaemon(False)
+    # starting the thread
+        _thread.start()
+
+        # Return user anyways
         return JSONResponse({
             "First name": data["fname"],
             "Last name": data["lname"],
             "Email": data["email"],
             "Cpf": data["cpf"],
         }, status_code=201)
+    # If user exist
     return JSONResponse(
         "User already exist", status_code=400
     )
