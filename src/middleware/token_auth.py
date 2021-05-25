@@ -12,7 +12,5 @@ def middleware_token():
         secret_key=key('HASH_GEN'), username_field='email', prefix='JWT')
 
     mid = [Middleware(AuthenticationMiddleware, backend=back_token),
-           Middleware(CORSMiddleware, allow_origins=['*']),
-           #  Middleware(SessionMiddleware, secret_key=key('HASH_GEN'))
-           ]
+           Middleware(CORSMiddleware, allow_origins=['*']), ]
     return mid

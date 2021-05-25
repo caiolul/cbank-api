@@ -5,7 +5,6 @@ from src.database.models import database
 
 # For postgres
 
-
 class QueryTypes(Enum):
     SELECT_BALANCE = """SELECT * FROM public."Balance" WHERE user_cpf = :cpf"""
     SELECT_USER = """SELECT * FROM public."User" WHERE cpf = :cpf AND email = :email"""

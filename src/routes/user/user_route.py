@@ -53,10 +53,10 @@ async def add_user(request: Request) -> object:
 
         # Return user anyways
         return JSONResponse({
-            "First name": data["fname"],
-            "Last name": data["lname"],
-            "Email": data["email"],
-            "Cpf": data["cpf"],
+            "f_name": data["fname"],
+            "l_name": data["lname"],
+            "email": data["email"],
+            "cpf": data["cpf"],
         }, status_code=201)
     # If user exist
     return JSONResponse(
