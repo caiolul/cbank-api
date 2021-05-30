@@ -8,10 +8,11 @@ from src.utils.database_func import login_user
 
 key = config('HASH_GEN')
 
-exp_token = datetime.datetime.utcnow() + datetime.timedelta(days=1)
+# print(exp_token)
 
 
 async def login(request: Request):
+    exp_token = datetime.datetime.now()
   # Get data
     data = await request.json()
     result = await login_user(data["email"])
@@ -29,6 +30,7 @@ async def login(request: Request):
                 key,
                 algorithm="HS256")
             # Return token
+            print(exp_token)
             return JSONResponse({
                 "f_name": result["fname"],
                 "l_name": result["lname"],
