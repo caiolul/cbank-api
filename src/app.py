@@ -5,7 +5,7 @@ from src.database.models import database
 from src.middleware.token_auth import middleware_token
 
 
-app = Starlette(debug=True,
+app = Starlette(debug=False,
                 routes=api_routes,
                 on_startup=[database.connect],
                 on_shutdown=[database.disconnect],

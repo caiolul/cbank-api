@@ -77,7 +77,7 @@ async def withdraw(request: Request) -> object:
 
         await database.execute(history)
         # Return new value
-        return JSONResponse({"New balance": result})
+        return JSONResponse({"balance": result})
     # Return errors
     return JSONResponse({"Error": "higher value than available"}, status_code=400)
 
@@ -104,7 +104,7 @@ async def deposit(request: Request) -> object:
         )
         await database.execute(history)
         # Return new balance
-        return JSONResponse({"New balance": result})
+        return JSONResponse({"balance": result})
     # Return errors
     return JSONResponse({"Error": "Value incorrect"}, status_code=400)
 
@@ -141,7 +141,7 @@ async def transfer_to_cpf(request: Request) -> object:
 
         await database.execute(history)
         # Return new value
-        return JSONResponse({"New balance recive": new_balance,
-                             "New balance send": remove_balance})
+        return JSONResponse({"balance_recive": new_balance,
+                             "balance_send": remove_balance})
     # Return errors
     return JSONResponse({"Error": "higher value than available"}, status_code=400)
