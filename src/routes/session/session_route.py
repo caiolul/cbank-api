@@ -12,7 +12,7 @@ key = config('HASH_GEN')
 
 
 async def login(request: Request):
-    exp_token = datetime.datetime.now()
+    exp_token = datetime.datetime.utcnow() + datetime.timedelta(days=1)
   # Get data
     data = await request.json()
     result = await login_user(data["email"])

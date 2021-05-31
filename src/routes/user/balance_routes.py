@@ -127,7 +127,7 @@ async def transfer_to_cpf(request: Request) -> object:
     remove_balance = query["value"] - data_json["value"]
 
     # Handling request
-    if result >= 0.0 and query_cpf != None and remove_balance >= 0.0:
+    if result >= 0.0 and query_cpf != None and remove_balance >= 0.0 and query["cpf"] != data_json["cpf"]:
         # Query to update balance
         update_send_balance = await update_balance(remove_balance, data.payload["cpf"])
         resutl_query = await update_balance(new_balance, data_json["cpf"])

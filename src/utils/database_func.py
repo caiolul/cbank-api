@@ -5,10 +5,11 @@ from src.database.models import database
 
 # For postgres
 
+
 class QueryTypes(Enum):
     SELECT_BALANCE = """SELECT * FROM public."Balance" WHERE user_cpf = :cpf"""
     SELECT_USER = """SELECT * FROM public."User" WHERE cpf = :cpf AND email = :email"""
-    SELECT_HISTORY = """SELECT * FROM public."History" WHERE cpf_recive = :cpf"""
+    SELECT_HISTORY = """SELECT * FROM public."History" WHERE cpf_recive = :cpf OR cpf_send = :cpf"""
     RETURN_USERNAME = """SELECT * FROM public."User" WHERE cpf = :cpf"""
     UPDATE_BALANCE = """UPDATE public."Balance" SET VALUE = :value WHERE user_cpf = :cpf"""
     UPDATE_USER = """UPDATE public."User" SET fname = :fname, lname = :lname, email = :email WHERE cpf = :cpf"""
